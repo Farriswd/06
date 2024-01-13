@@ -93,6 +93,33 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'auth_db' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST_AUTH', '127.0.0.1'),
+            'port' => env('DB_PORT_AUTH', '1433'),
+            'database' => env('DB_DATABASE_AUTH', 'Auth'),
+            'username' => env('DB_USERNAME_AUTH', 'sa'),
+            'password' => env('DB_PASSWORD_AUTH', 'Password_by_default'),
+        ],
+
+        'arcadia_db' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST_ARCADIA', '127.0.0.1'),
+            'port' => env('DB_PORT_ARCADIA', '1433'),
+            'database' => env('DB_DATABASE_ARCADIA', 'Auth'),
+            'username' => env('DB_USERNAME_ARCADIA', 'sa'),
+            'password' => env('DB_PASSWORD_ARCADIA', 'Password_by_default'),
+        ],
+
+        'telecaster_db' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST_TELECASTER', '127.0.0.1'),
+            'port' => env('DB_PORT_TELECASTER', '1433'),
+            'database' => env('DB_DATABASE_TELECASTER', 'Auth'),
+            'username' => env('DB_USERNAME_TELECASTER', 'sa'),
+            'password' => env('DB_PASSWORD_TELECASTER', 'Password_by_default'),
+        ],
+
     ],
 
     /*

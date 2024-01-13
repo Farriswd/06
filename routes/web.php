@@ -17,6 +17,8 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+//    $users = \App\Models\User::all();
+//    dd($users);
     return Inertia::render('Welcome');
 });
 
