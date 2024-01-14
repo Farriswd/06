@@ -114,14 +114,19 @@ Make sure that u created databases
         ],
     ```
 
-6. Generate project key:
+7. Generate project key:
     ```bash
     php artisan key:generate
     ```
 
-7. Now you can make migrations for website
+8. Now you can make migrations for website
     ```bash
     php arisan migrate
+    ```
+
+9. Don't forget to make storage link or images will not display:
+    ```bash
+    php arisan storage:link
     ```
 ## Использование
 

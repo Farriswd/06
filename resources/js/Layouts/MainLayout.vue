@@ -97,8 +97,8 @@
         </div><!--footerTopBlock-->
         <div class="footerBottomBlock">
             <p><span>© 2019</span> Giran: Lineage 2</p>
-            <p>This server is a test option of the game lineage 2 and is intended only for the acquaintance of players.</p>
-            <p>All rights owned by NCSOFT</p>
+            <p>This server is a test option of the game Rappelz and is intended only for the acquaintance of players.</p>
+            <p>All rights owned by Gala Lab Corp</p>
         </div><!--footerBottomBlock-->
     </footer><!-- .footer -->
 
@@ -116,7 +116,7 @@
             <p><button>ok</button></p>
         </form>
         <div class="formlinks">
-            <p><a href="">Forgot your password ?</a></p>
+            <p><a href="#">Forgot your password ?</a></p>
             <p>Dont`t have an account ? <a href="" class="reg">Register</a></p>
         </div>
     </div>

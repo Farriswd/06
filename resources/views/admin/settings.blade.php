@@ -4,7 +4,7 @@
     <h2>Website Settings</h2>
     <form id="update_settings">
         <div class="form-group">
-            <label for="title" class="form-control-label">Title</label>
+            <label for="title" class="form-control-label">Title <span class="text-danger">*</span></label>
             <input class="form-control" type="text" value="{{ $settings ? $settings->title : '' }}" name="title" id="title">
         </div>
         <div class="mb-3">
@@ -29,7 +29,7 @@
             <input class="form-control" type="file" id="footer_logo" name="footer_logo">
         </div>
         <div class="form-group">
-            <label for="copyright_text">Copyright Text</label>
+            <label for="copyright_text">Copyright Text <span class="text-danger">*</span></label>
             <textarea class="form-control" id="copyright_text" name="copyright_text" rows="3">{{ $settings ? $settings->copyright_text : '' }}</textarea>
         </div>
         <div class="form-group">
