@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Server extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'auth_ip',
+        'auth_port',
+        'image'
+    ];
 }

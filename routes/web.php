@@ -16,11 +16,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-//    $users = \App\Models\User::all();
-//    dd($users);
-    return Inertia::render('Welcome');
-});
+Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->name('index');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -30,6 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::group(['prefix' => 'admin'], function() {
+    Route::get('/', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('admin.index');
+
+    Route::get('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('admin.settings.index');
+    Route::patch('/settings/update', [\App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('admin.settings.update');
 });
 
 require __DIR__.'/auth.php';

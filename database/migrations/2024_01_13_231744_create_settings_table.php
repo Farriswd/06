@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('header_logo');
-            $table->string('main_logo');
-            $table->string('footer_logo');
+            $table->string('header_logo')->nullable();
+            $table->string('main_logo')->nullable();
+            $table->string('footer_logo')->nullable();
             $table->text('copyright_text');
-            $table->string('facebook_link');
-            $table->string('discord_link');
+            $table->string('facebook_link')->nullable();
+            $table->string('discord_link')->nullable();
             $table->timestamps();
         });
     }
