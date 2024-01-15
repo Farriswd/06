@@ -11,7 +11,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Accounts</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    2,300
+                                    {{ $totalAccounts }}
                                 </h5>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Characters</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    103,430
+                                    {{ $totalCharacters}}
                                 </h5>
                             </div>
                         </div>
