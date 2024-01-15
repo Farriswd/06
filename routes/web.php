@@ -42,6 +42,24 @@ Route::group(['prefix' => 'admin'], function() {
         Route::patch('/update/{server}', [\App\Http\Controllers\Admin\ServerController::class, 'update'])->name('admin.servers.update');
         Route::delete('/delete/{server}', [\App\Http\Controllers\Admin\ServerController::class, 'delete'])->name('admin.servers.delete');
     });
+
+    Route::group(['prefix' => 'news'], function (){
+//        Route::get('/', [\App\Http\Controllers\Admin\ServerController::class, 'index'])->name('admin.servers.index');
+//        Route::get('/create', [\App\Http\Controllers\Admin\ServerController::class, 'create'])->name('admin.servers.create');
+//        Route::post('/', [\App\Http\Controllers\Admin\ServerController::class, 'store'])->name('admin.servers.store');
+//        Route::get('/edit/{server}', [\App\Http\Controllers\Admin\ServerController::class, 'edit'])->name('admin.servers.edit');
+//        Route::patch('/update/{server}', [\App\Http\Controllers\Admin\ServerController::class, 'update'])->name('admin.servers.update');
+//        Route::delete('/delete/{server}', [\App\Http\Controllers\Admin\ServerController::class, 'delete'])->name('admin.servers.delete');
+
+        Route::group(['prefix' => 'categories'], function (){
+            Route::get('/', [\App\Http\Controllers\Admin\News\CategoryController::class, 'index'])->name('admin.news.categories.index');
+            Route::get('/create', [\App\Http\Controllers\Admin\News\CategoryController::class, 'create'])->name('admin.news.categories.create');
+            Route::post('/', [\App\Http\Controllers\Admin\News\CategoryController::class, 'store'])->name('admin.news.categories.store');
+            Route::get('/edit/{category}', [\App\Http\Controllers\Admin\News\CategoryController::class, 'edit'])->name('admin.news.categories.edit');
+            Route::patch('/update/{category}', [\App\Http\Controllers\Admin\News\CategoryController::class, 'update'])->name('admin.news.categories.update');
+            Route::delete('/delete/{category}', [\App\Http\Controllers\Admin\News\CategoryController::class, 'delete'])->name('admin.news.categories.delete');
+        });
+    });
 });
 
 require __DIR__.'/auth.php';

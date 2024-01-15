@@ -43,7 +43,7 @@
                             </td>
                             <td class="align-middle text-center">
                                 <a href="{{ route('admin.servers.edit', $server->id) }}" class="btn btn-success"><i class="fas fa-pen"></i></a>
-                                <a href="#" id="delete_server" class="btn btn-danger" data-id="{{ $server->id }}"><i class="fas fa-trash"></i></a>
+                                <a href="#" class="btn btn-danger delete_server" data-id="{{ $server->id }}"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                             @endforeach

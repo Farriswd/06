@@ -58,8 +58,11 @@
                     <span class="nav-link-text ms-1">Servers</span>
                 </a>
             </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">News pages</h6>
+            </li>
             <li class="nav-item">
-                <a class="nav-link  " href="#">
+                <a class="nav-link {{ \Illuminate\Support\Facades\Route::currentRouteNamed('admin.news.categories.*') ? 'active' : '' }} " href="{{ route('admin.news.categories.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>box-3d-50</title>
@@ -76,7 +79,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Virtual Reality</span>
+                    <span class="nav-link-text ms-1">Categories</span>
                 </a>
             </li>
             <li class="nav-item">
