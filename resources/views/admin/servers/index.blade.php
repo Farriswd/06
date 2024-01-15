@@ -31,7 +31,7 @@
                                         <img src="{{ asset('/storage/' . $server->image) }}" class="avatar me-3">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">{{ $server->title }}</h6>
+                                        <h6 class="mb-0 text-sm">{{ $server->title }} @if(checkServerStatus($server->auth_ip, $server->auth_port) === 'Online') <span class="badge bg-gradient-success">On</span> @else <span class="badge bg-gradient-danger">Off</span> @endif</h6>
                                     </div>
                                 </div>
                             </td>
