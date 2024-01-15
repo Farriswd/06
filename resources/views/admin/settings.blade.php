@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <label for="copyright_text">Copyright Text <span class="text-danger">*</span></label>
-            <textarea class="form-control" id="copyright_text" name="copyright_text" rows="3">{{ $settings ? $settings->copyright_text : '' }}</textarea>
+            <textarea class="form-control" id="summernote" name="copyright_text" rows="3">{{ $settings ? $settings->copyright_text : '' }}</textarea>
         </div>
         <div class="form-group">
             <label for="facebook_link" class="form-control-label">Facebook Link</label>

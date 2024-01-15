@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @section('content')
-    <h2>Edit Server</h2>
+    <h2>Edit Category</h2>
     <form id="edit_category">
         <div class="form-group">
             <label for="title" class="form-control-label">Title <span class="text-danger">*</span></label>

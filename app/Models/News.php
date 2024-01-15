@@ -13,7 +13,12 @@ class News extends Model
         'title',
         'preview_image',
         'image',
+        'event_image',
         'content',
         'category_id'
     ];
+
+    public function category() {
+        return $this->belongsTo(NewsCategory::class);
+    }
 }

@@ -44,12 +44,12 @@ Route::group(['prefix' => 'admin'], function() {
     });
 
     Route::group(['prefix' => 'news'], function (){
-//        Route::get('/', [\App\Http\Controllers\Admin\ServerController::class, 'index'])->name('admin.servers.index');
-//        Route::get('/create', [\App\Http\Controllers\Admin\ServerController::class, 'create'])->name('admin.servers.create');
-//        Route::post('/', [\App\Http\Controllers\Admin\ServerController::class, 'store'])->name('admin.servers.store');
-//        Route::get('/edit/{server}', [\App\Http\Controllers\Admin\ServerController::class, 'edit'])->name('admin.servers.edit');
-//        Route::patch('/update/{server}', [\App\Http\Controllers\Admin\ServerController::class, 'update'])->name('admin.servers.update');
-//        Route::delete('/delete/{server}', [\App\Http\Controllers\Admin\ServerController::class, 'delete'])->name('admin.servers.delete');
+        Route::get('/', [\App\Http\Controllers\Admin\News\NewsController::class, 'index'])->name('admin.news.index');
+        Route::get('/create', [\App\Http\Controllers\Admin\News\NewsController::class, 'create'])->name('admin.news.create');
+        Route::post('/', [\App\Http\Controllers\Admin\News\NewsController::class, 'store'])->name('admin.news.store');
+        Route::get('/edit/{new}', [\App\Http\Controllers\Admin\News\NewsController::class, 'edit'])->name('admin.news.edit');
+        Route::patch('/update/{new}', [\App\Http\Controllers\Admin\News\NewsController::class, 'update'])->name('admin.news.update');
+        Route::delete('/delete/{new}', [\App\Http\Controllers\Admin\News\NewsController::class, 'delete'])->name('admin.news.delete');
 
         Route::group(['prefix' => 'categories'], function (){
             Route::get('/', [\App\Http\Controllers\Admin\News\CategoryController::class, 'index'])->name('admin.news.categories.index');

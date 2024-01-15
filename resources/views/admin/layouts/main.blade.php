@@ -33,6 +33,8 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="{{ asset('adm/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+    <!-- Summernote -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('adm/assets/css/soft-ui-dashboard.css?v=1.0.7') }}" rel="stylesheet" />
 </head>
@@ -257,6 +259,7 @@
 <!--   Core JS Files   -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="{{ asset('adm/assets/js/core/popper.min.js') }}"></script>
 <script src="{{ asset('adm/assets/js/core/bootstrap.min.js') }}"></script>
 <script src="{{ asset('adm/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
@@ -278,6 +281,7 @@
 <!-- Ajax CRUD scripts -->
 <script>
     $(document).ready(function (){
+        $('#summernote').summernote({height:200});
 
         /*    Settings save function Start */
             $("#save_settings").on('click',(function (e) {
@@ -477,7 +481,102 @@
                 contentType: false,
                 success: function (response) {
                     console.log(response);
-                    $('tr#category_' + categoryId).remove();
+                    $('tr#category_' + categoryId).hide(800, function () {
+                        $(this).remove()
+                    });
+                    Toastify({
+                        text: "Saved successfully!",
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                        }
+                    }).showToast();
+                },
+                error: function (response) {
+                    console.log(response);
+                    Toastify({
+                        text: response.responseJSON.message,
+                        className: "danger",
+                        style: {
+                            background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+                        }
+                    }).showToast();
+                }
+            });
+        }));
+        @endif
+        /* News/Category delete function end */
+
+        /* News/Category update function start */
+        @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.news.edit'))
+        $('#save_post').on('click',(function (e){
+            e.preventDefault();
+            let formData = new FormData($("#update_post")[0]);
+            formData.append('_method', 'PATCH');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('admin.news.update', $new->id) }}",
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    $('#title').val(response.data.title)
+                    $('#preview_image_preview').attr('src', '/storage/'+response.data.preview_image)
+                    $('#image_preview').attr('src', '/storage/'+response.data.image)
+                    $('#event_image_preview').attr('src', '/storage/'+response.data.event_image)
+                    $('#summernote').val(response.data.content)
+                    $('#category_id').val(response.data.category_id)
+                    Toastify({
+                        text: "Saved successfully!",
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                        }
+                    }).showToast();
+                },
+                error: function (response) {
+                    console.log(response);
+                    Toastify({
+                        text: response.responseJSON.message,
+                        className: "danger",
+                        style: {
+                            background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+                        }
+                    }).showToast();
+                }
+            });
+        }));
+        @endif
+        /* News/Category update function end */
+
+        /* News/Category delete function start */
+        @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.news.index'))
+        $('.delete_new').on('click',(function (e){
+            e.preventDefault();
+
+            let formData = new FormData();
+            formData.append('_method', 'DELETE')
+            let newId = $(this).data('id')
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "news/delete/"+newId,
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    $('tr#new_' + newId).hide(800, function () {
+                        $(this).remove()
+                    });
                     Toastify({
                         text: "Saved successfully!",
                         className: "info",
