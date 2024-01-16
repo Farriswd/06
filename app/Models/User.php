@@ -44,4 +44,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getGameAccountInfoAttribute() {
+        return GameAuthAccount::where('account_id', $this->game_account_id)->first();
+    }
 }

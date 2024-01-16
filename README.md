@@ -67,6 +67,8 @@ Make sure that u created databases
     DB_DATABASE_AUTH=db_name_of_auth
     DB_USERNAME_AUTH=db_username
     DB_PASSWORD_AUTH=db_password
+   
+    DB_PASSWORD_SALT=2011
     ```
 
 6. Add to config/database.php the code below:

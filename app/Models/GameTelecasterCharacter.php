@@ -11,4 +11,21 @@ class GameTelecasterCharacter extends Model
 
     protected $connection = 'telecaster_db';
     protected $table = 'Character';
+    protected $fillable = [
+        'sid',
+        'name',
+        'account',
+        'account_id',
+        'permission',
+        'race',
+        'sex',
+        'lv',
+        'job',
+        'gold'
+    ];
+
+
+    public function getCharacterGuildAttribute() {
+        return GameTelecasterGuildMember::where('player_id', $this->sid)->first();
+    }
 }

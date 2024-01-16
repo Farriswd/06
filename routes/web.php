@@ -60,6 +60,15 @@ Route::group(['prefix' => 'admin'], function() {
             Route::delete('/delete/{category}', [\App\Http\Controllers\Admin\News\CategoryController::class, 'delete'])->name('admin.news.categories.delete');
         });
     });
+
+    Route::group(['prefix' => 'accounts'], function (){
+        Route::get('/', [\App\Http\Controllers\Admin\AccountController::class, 'index'])->name('admin.accounts.index');
+        Route::get('/create', [\App\Http\Controllers\Admin\AccountController::class, 'create'])->name('admin.accounts.create');
+        Route::post('/', [\App\Http\Controllers\Admin\AccountController::class, 'store'])->name('admin.accounts.store');
+        Route::get('/edit/{account}', [\App\Http\Controllers\Admin\AccountController::class, 'edit'])->name('admin.accounts.edit');
+        Route::patch('/update/{account}', [\App\Http\Controllers\Admin\AccountController::class, 'update'])->name('admin.accounts.update');
+        Route::delete('/delete/{account}', [\App\Http\Controllers\Admin\AccountController::class, 'delete'])->name('admin.accounts.delete');
+    });
 });
 
 require __DIR__.'/auth.php';

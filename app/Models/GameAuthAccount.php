@@ -11,6 +11,7 @@ class GameAuthAccount extends Model
 
     protected $connection = 'auth_db';
     protected $table = 'Account';
+    protected $primaryKey = 'account_id';
     protected $fillable = [
         'account_id',
         'account',
@@ -33,4 +34,8 @@ class GameAuthAccount extends Model
         'accessDate_'
     ];
     public $timestamps = false;
+
+    public function getCharactersAttribute() {
+        return GameTelecasterCharacter::where('account_id', $this->account_id)->get();
+    }
 }

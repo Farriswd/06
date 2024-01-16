@@ -507,7 +507,7 @@
         @endif
         /* News/Category delete function end */
 
-        /* News/Category update function start */
+        /* News update function start */
         @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.news.edit'))
         $('#save_post').on('click',(function (e){
             e.preventDefault();
@@ -552,9 +552,9 @@
             });
         }));
         @endif
-        /* News/Category update function end */
+        /* News update function end */
 
-        /* News/Category delete function start */
+        /* News delete function start */
         @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.news.index'))
         $('.delete_new').on('click',(function (e){
             e.preventDefault();
@@ -598,7 +598,52 @@
             });
         }));
         @endif
-        /* News/Category delete function end */
+        /* News delete function end */
+
+        /* News update function start */
+        @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.accounts.edit'))
+        $('#save_account').on('click',(function (e){
+            e.preventDefault();
+            let formData = new FormData($("#edit_account")[0]);
+            formData.append('_method', 'PATCH');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('admin.accounts.update', $account->id) }}",
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    $('#email').val(response.gameAccount.email)
+                    $('#Admin').val(response.gameAccount.Admin)
+                    $('#block').val(response.gameAccount.block)
+                    $('#balance').val(response.webAccount.balance)
+                    Toastify({
+                        text: "Saved successfully!",
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                        }
+                    }).showToast();
+                },
+                error: function (response) {
+                    console.log(response);
+                    Toastify({
+                        text: response.responseJSON.message,
+                        className: "danger",
+                        style: {
+                            background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+                        }
+                    }).showToast();
+                }
+            });
+        }));
+        @endif
+        /* News update function end */
 
 
         /* Common Toast notifies start */
