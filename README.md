@@ -47,20 +47,6 @@ Make sure that u created databases
     DB_USERNAME=db_username
     DB_PASSWORD=db_password
     
-    DB_CONNECTION_ARCADIA=sqlsrv
-    DB_HOST_ARCADIA=your_db_ip or 127.0.0.1
-    DB_PORT_ARCADIA=1433
-    DB_DATABASE_ARCADIA=db_name_of_arcadia
-    DB_USERNAME_ARCADIA=db_username
-    DB_PASSWORD_ARCADIA=db_password
-    
-    DB_CONNECTION_TELECASTER=sqlsrv
-    DB_HOST_TELECASTER=your_db_ip or 127.0.0.1
-    DB_PORT_TELECASTER=1433
-    DB_DATABASE_TELECASTER=db_name_of_telecaster
-    DB_USERNAME_TELECASTER=db_username
-    DB_PASSWORD_TELECASTER=db_password
-    
     DB_CONNECTION_AUTH=sqlsrv
     DB_HOST_AUTH=your_db_ip or 127.0.0.1
     DB_PORT_AUTH=1433

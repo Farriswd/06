@@ -25,7 +25,16 @@ class StoreRequest extends FormRequest
             'title' => 'required|string',
             'image' => 'nullable|file',
             'auth_ip' => 'required|string',
-            'auth_port' => 'required|string'
+            'auth_port' => 'required|string',
+            'game_ip' => 'required|string',
+            'game_port' => 'required|integer',
+            'game_console_port' => 'required|integer',
+            'db_ip' => 'required|string',
+            'db_port' => 'required|integer',
+            'username' => 'required|string',
+            'password' => 'required|string',
+            'telecaster_db' => 'required|string|unique:servers,telecaster_db',
+            'arcadia_db' => 'required|string|unique:servers,arcadia_db'
         ];
     }
 }

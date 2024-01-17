@@ -73,30 +73,39 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Job</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Level</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Guild</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Server</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @if($account->GameAccountInfo->Characters->count() > 0)
-                        @foreach($account->GameAccountInfo->Characters as $character)
+
+                        @if($account->gameCharacters)
+
+                        @foreach($account->gameCharacters as $character)
+
                         <tr>
                             <td class="ps-4">
-                                <p class="text-dark font-weight-bold">{{ $character->name }}</p>
+                                <p class="text-dark font-weight-bold">{{ $character['name'] }}</p>
                             </td>
                             <td>
-                                <img src="{{ asset('jobs/'.$character->job.'.jpg') }}" alt="">
+                                <img src="{{ asset('jobs/'.$character['job'].'.jpg') }}" alt="">
                             </td>
                             <td>
-                                <p class="text-dark font-weight-bold">{{ $character->lv }}</p>
+                                <p class="text-dark font-weight-bold">{{ $character['lv'] }}</p>
                             </td>
                             <td>
-                                <div class="d-flex">
-                                    <div>
-                                        <img src="{{ asset('/gicons/'.$character->CharacterGuild->GuildInfo->icon) }}" class="me-2">
-                                    </div>
-                                    <div class="my-auto">
-                                        <h6 class="mb-0 text-xs">{{ $character->CharacterGuild->GuildInfo->name }}</h6>
-                                    </div>
-                                </div>
+{{--                                @if($character->CharacterGuild)--}}
+{{--                                <div class="d-flex">--}}
+{{--                                    <div>--}}
+{{--                                        <img src="{{ asset('/gicons/'.$character->CharacterGuild->GuildInfo->icon) }}" class="me-2">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="my-auto">--}}
+{{--                                        <h6 class="mb-0 text-xs">{{ $character->CharacterGuild->GuildInfo->name }}</h6>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                @endif--}}
+                            </td>
+                            <td>
+                                <p class="text-dark font-weight-bold">{{ $character['server_name'] }}</p>
                             </td>
                         </tr>
                         @endforeach

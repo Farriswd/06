@@ -11,6 +11,7 @@ class GameTelecasterCharacter extends Model
 
     protected $connection = 'telecaster_db';
     protected $table = 'Character';
+    protected $primaryKey = 'sid';
     protected $fillable = [
         'sid',
         'name',
@@ -20,10 +21,13 @@ class GameTelecasterCharacter extends Model
         'race',
         'sex',
         'lv',
+        'exp',
+        'talent_point',
+        'huntaholic_point',
+        'arena_point',
         'job',
         'gold'
     ];
-
 
     public function getCharacterGuildAttribute() {
         return GameTelecasterGuildMember::where('player_id', $this->sid)->first();

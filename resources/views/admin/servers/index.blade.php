@@ -18,6 +18,11 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Auth Ip</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Auth Port</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Game Ip</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Game Port</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Game Console Port</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Telecaster DB</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Arcadia DB</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                         </tr>
                         </thead>
@@ -31,7 +36,9 @@
                                         <img src="{{ asset('/storage/' . $server->image) }}" class="avatar me-3">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">{{ $server->title }} @if(checkServerStatus($server->auth_ip, $server->auth_port) === 'Online') <span class="badge bg-gradient-success">On</span> @else <span class="badge bg-gradient-danger">Off</span> @endif</h6>
+                                        <h6 class="mb-0 text-sm">{{ $server->title }}
+                                            <span class="badge server-status_badge" data-server-id="{{ $server->id }}"></span>
+                                        </h6>
                                     </div>
                                 </div>
                             </td>
@@ -40,6 +47,21 @@
                             </td>
                             <td class="align-middle text-center">
                                 {{ $server->auth_port }}
+                            </td>
+                            <td>
+                                {{ $server->game_ip }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $server->game_port }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $server->game_console_port }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $server->telecaster_db }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $server->arcadia_db }}
                             </td>
                             <td class="align-middle text-center">
                                 <a href="{{ route('admin.servers.edit', $server->id) }}" class="btn btn-success"><i class="fas fa-pen"></i></a>

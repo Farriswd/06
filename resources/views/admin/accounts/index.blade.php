@@ -42,7 +42,7 @@
                                 @endif
                             </td>
                             <td>
-                                {{ $account->GameAccountInfo->Characters->count() }}
+                                {{ $account->charactersCount}}
                             </td>
                             <td>
                                 {{ $account->balance }} <span class="text-primary font-weight-bold">SA</span>
@@ -56,7 +56,6 @@
                             </td>
                             <td class="align-middle text-center">
                                 <a href="{{ route('admin.accounts.edit', $account->id) }}" class="btn btn-success"><i class="fas fa-pen"></i></a>
-                                <a href="#" class="btn btn-danger delete_account" data-id="{{ $account->id }}"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                             @endforeach

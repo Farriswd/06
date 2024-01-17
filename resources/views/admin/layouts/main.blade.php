@@ -37,6 +37,8 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('adm/assets/css/soft-ui-dashboard.css?v=1.0.7') }}" rel="stylesheet" />
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="{{ asset('adm/assets/css/custom.css') }}">
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -415,6 +417,36 @@
                         }
                     });
             }));
+
+                /* Check server status start */
+                    $(document).ready(function () {
+                        function checkServerStatus(id, statusBadge) {
+                            $.ajax({
+                                url: '/game-server/status/' + id,
+                                type: 'GET',
+                                success: function (response) {
+                                    if (response === 'Online') {
+                                        statusBadge.text('On').addClass('bg-gradient-success').removeClass('bg-gradient-info');
+                                    } else {
+                                        statusBadge.text('Off').addClass('bg-gradient-danger').removeClass('bg-gradient-info');
+                                        console.log('Server is down');
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error('Error checking server status:', error);
+                                    statusBadge.text('Error').addClass('bg-gradient-danger').removeClass('bg-gradient-success');
+                                }
+                            });
+                        }
+
+                        $('.server-status_badge').each(function () {
+                            var serverId = $(this).data('server-id');
+                            var statusBadge = $(this);
+                            statusBadge.html('<i class="fas fa-circle-notch fa-spin"></i>').addClass('bg-gradient-info')
+                            checkServerStatus(serverId, statusBadge);
+                        });
+                    });
+                /* Check server status end */
             @endif
         /* Server delete function end */
 
@@ -600,7 +632,7 @@
         @endif
         /* News delete function end */
 
-        /* News update function start */
+        /* Account update function start */
         @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.accounts.edit'))
         $('#save_account').on('click',(function (e){
             e.preventDefault();
@@ -643,7 +675,7 @@
             });
         }));
         @endif
-        /* News update function end */
+        /* Account update function end */
 
 
         /* Common Toast notifies start */

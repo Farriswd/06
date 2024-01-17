@@ -67,8 +67,14 @@ Route::group(['prefix' => 'admin'], function() {
         Route::post('/', [\App\Http\Controllers\Admin\AccountController::class, 'store'])->name('admin.accounts.store');
         Route::get('/edit/{account}', [\App\Http\Controllers\Admin\AccountController::class, 'edit'])->name('admin.accounts.edit');
         Route::patch('/update/{account}', [\App\Http\Controllers\Admin\AccountController::class, 'update'])->name('admin.accounts.update');
-        Route::delete('/delete/{account}', [\App\Http\Controllers\Admin\AccountController::class, 'delete'])->name('admin.accounts.delete');
+//        Route::delete('/delete/{account}', [\App\Http\Controllers\Admin\AccountController::class, 'delete'])->name('admin.accounts.delete');
+    });
+
+    Route::group(['prefix' => 'characters'], function() {
+       Route::get('/server/{server}', [\App\Http\Controllers\Admin\GameCharacterController::class, 'index'])->name('admin.characters.index');
     });
 });
 
+Route::get('/game-server/status/{server}', [\App\Http\Controllers\GameServerController::class, 'check'])->name('check.server.status');
+Route::get('test/console', [\App\Http\Controllers\GameServerController::class, 'console'])->name('console');
 require __DIR__.'/auth.php';
