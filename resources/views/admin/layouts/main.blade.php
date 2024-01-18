@@ -677,7 +677,6 @@
         @endif
         /* Account update function end */
 
-
         /* Character update function start */
         @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.characters.edit'))
         $('#save_character').on('click',(function (e){
@@ -718,6 +717,186 @@
         }));
         @endif
         /* Character update function end */
+
+        /* Shop/Category update function start */
+        @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.shop.categories.edit'))
+        $('#update_shop_category').on('click',(function (e){
+            e.preventDefault();
+            let formData = new FormData($("#edit_shop_category")[0]);
+            formData.append('_method', 'PATCH');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('admin.shop.categories.update', $category->id) }}",
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    $('#title').addClass('is-valid').val(response.data.title)
+                    Toastify({
+                        text: "Saved successfully!",
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                        }
+                    }).showToast();
+                },
+                error: function (response) {
+                    console.log(response);
+                    $('#title').addClass('is-invalid')
+                    Toastify({
+                        text: response.responseJSON.message,
+                        className: "danger",
+                        style: {
+                            background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+                        }
+                    }).showToast();
+                }
+            });
+        }));
+        @endif
+        /* Shop/Category update function end */
+
+        /* Shop/Category delete function start */
+        @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.shop.categories.index'))
+        $('.delete_shop_category').on('click',(function (e){
+            e.preventDefault();
+
+            let formData = new FormData();
+            formData.append('_method', 'DELETE')
+            let categoryId = $(this).data('id')
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "categories/delete/"+categoryId,
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    $('tr#shop_' + categoryId).hide(800, function () {
+                        $(this).remove()
+                    });
+                    Toastify({
+                        text: "Deleted successfully!",
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                        }
+                    }).showToast();
+                },
+                error: function (response) {
+                    console.log(response);
+                    Toastify({
+                        text: response.responseJSON.message,
+                        className: "danger",
+                        style: {
+                            background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+                        }
+                    }).showToast();
+                }
+            });
+        }));
+        @endif
+        /* Shop/Category delete function end */
+
+        /* Product update function start */
+        @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.shop.products.edit'))
+        $('#save_shop_product').on('click',(function (e){
+            e.preventDefault();
+            let formData = new FormData($("#update_shop_product")[0]);
+            formData.append('_method', 'PATCH');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('admin.shop.products.update', $product->id) }}",
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    $('#title').val(response.data.title)
+                    $('#image_preview').attr('src', '/storage/'+response.data.image)
+                    $('#description').val(response.data.description)
+                    $('#category_id').val(response.data.category_id)
+                    Toastify({
+                        text: "Saved successfully!",
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                        }
+                    }).showToast();
+                },
+                error: function (response) {
+                    console.log(response);
+                    Toastify({
+                        text: response.responseJSON.message,
+                        className: "danger",
+                        style: {
+                            background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+                        }
+                    }).showToast();
+                }
+            });
+        }));
+        @endif
+        /* Product update function end */
+
+        /* Product delete function start */
+        @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.shop.products.index'))
+        $('.delete_shop_product').on('click',(function (e){
+            e.preventDefault();
+
+            let formData = new FormData();
+            formData.append('_method', 'DELETE')
+            let newId = $(this).data('id')
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "products/delete/"+newId,
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    $('tr#new_' + newId).hide(800, function () {
+                        $(this).remove()
+                    });
+                    Toastify({
+                        text: "Saved successfully!",
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                        }
+                    }).showToast();
+                },
+                error: function (response) {
+                    console.log(response);
+                    Toastify({
+                        text: response.responseJSON.message,
+                        className: "danger",
+                        style: {
+                            background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+                        }
+                    }).showToast();
+                }
+            });
+        }));
+        @endif
+        /* Product delete function end */
 
         /* Common Toast notifies start */
             @if(session('success'))

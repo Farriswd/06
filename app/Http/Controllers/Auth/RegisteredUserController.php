@@ -39,8 +39,9 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-//        $gameUserMaxId = GameAuthAccount::max('account_id');
+//        $gameUserMaxId = GameAuthAccount::max('account_id'); //
 //        $accountId = $gameUserMaxId + 1;
+        $accountId = 0;
         do {
             $accountId = mt_rand(100000, 999999); // Или используйте другой диапазон
         } while (!$this->isAccountIdUnique($accountId));

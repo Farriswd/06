@@ -120,6 +120,15 @@ return [
             'password' => env('DB_PASSWORD_TELECASTER', 'Password_by_default'),
         ],
 
+        'billing_db' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST_BILLING', '127.0.0.1'),
+            'port' => env('DB_PORT_BILLING', '1433'),
+            'database' => env('DB_DATABASE_BILLING', 'Billing'),
+            'username' => env('DB_USERNAME_BILLING', 'sa'),
+            'password' => env('DB_PASSWORD_BILLING', 'Password_by_default'),
+        ],
+
     ],
 
     /*

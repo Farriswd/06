@@ -14,6 +14,7 @@ class User extends Authenticatable
 
     protected $connection = 'sqlsrv';
 
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'game_account_id'
     ];
 
     /**
@@ -48,4 +50,9 @@ class User extends Authenticatable
     public function getGameAccountInfoAttribute() {
         return GameAuthAccount::where('account_id', $this->game_account_id)->first();
     }
+
+    public function orders() {
+        return $this->hasMany(Order::class);
+    }
+
 }

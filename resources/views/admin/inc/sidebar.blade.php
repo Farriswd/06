@@ -127,7 +127,7 @@
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Characters</h6>
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Characters (Select server)</h6>
             </li>
             @if(isset($globalServers))
             @foreach($globalServers as $globalServer)
@@ -143,6 +143,33 @@
             @else
             <li class="nav-item">No Servers Found</li>
             @endif
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Item Shop Pages</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ \Illuminate\Support\Facades\Route::currentRouteNamed('admin.shop.categories.*') ? 'active' : '' }} " href="{{ route('admin.shop.categories.index') }}">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center text-dark me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-list text-dark fs-6"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Categories</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ \Illuminate\Support\Facades\Route::currentRouteNamed('admin.shop.products.*') ? 'active' : '' }} " href="{{ route('admin.shop.products.index') }}">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center text-dark me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-shopping-bag text-dark fs-6"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Products</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ \Illuminate\Support\Facades\Route::currentRouteNamed('admin.characters.index') ? 'active' : '' }} " href="{{ route('admin.index') }}">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center text-dark me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-receipt text-dark fs-6"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Orders</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

@@ -75,6 +75,26 @@ Route::group(['prefix' => 'admin'], function() {
        Route::get('/edit/{server}/{character}', [\App\Http\Controllers\Admin\GameCharacterController::class, 'edit'])->name('admin.characters.edit');
        Route::patch('/update/{server}/{character}', [\App\Http\Controllers\Admin\GameCharacterController::class, 'update'])->name('admin.characters.update');
     });
+
+    Route::group(['prefix' => 'shop'], function () {
+        Route::group(['prefix' => 'categories'], function (){
+            Route::get('/', [\App\Http\Controllers\Admin\Shop\CategoryController::class, 'index'])->name('admin.shop.categories.index');
+            Route::get('/create', [\App\Http\Controllers\Admin\Shop\CategoryController::class, 'create'])->name('admin.shop.categories.create');
+            Route::post('/', [\App\Http\Controllers\Admin\Shop\CategoryController::class, 'store'])->name('admin.shop.categories.store');
+            Route::get('/edit/{category}', [\App\Http\Controllers\Admin\Shop\CategoryController::class, 'edit'])->name('admin.shop.categories.edit');
+            Route::patch('/update/{category}', [\App\Http\Controllers\Admin\Shop\CategoryController::class, 'update'])->name('admin.shop.categories.update');
+            Route::delete('/delete/{category}', [\App\Http\Controllers\Admin\Shop\CategoryController::class, 'delete'])->name('admin.shop.categories.delete');
+        });
+
+        Route::group(['prefix' => 'products'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\Shop\ProductController::class, 'index'])->name('admin.shop.products.index');
+            Route::get('/create', [\App\Http\Controllers\Admin\Shop\ProductController::class, 'create'])->name('admin.shop.products.create');
+            Route::post('/', [\App\Http\Controllers\Admin\Shop\ProductController::class, 'store'])->name('admin.shop.products.store');
+            Route::get('/edit/{product}', [\App\Http\Controllers\Admin\Shop\ProductController::class, 'edit'])->name('admin.shop.products.edit');
+            Route::patch('/update/{product}', [\App\Http\Controllers\Admin\Shop\ProductController::class, 'update'])->name('admin.shop.products.update');
+            Route::delete('/delete/{product}', [\App\Http\Controllers\Admin\Shop\ProductController::class, 'delete'])->name('admin.shop.products.delete');
+        });
+    });
 });
 
 Route::get('/game-server/status/{server}', [\App\Http\Controllers\GameServerController::class, 'check'])->name('check.server.status');

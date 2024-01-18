@@ -18,7 +18,7 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Blocked</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Characters</th>
+{{--                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Characters</th>--}}
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Balance</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Is Admin</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
@@ -26,13 +26,15 @@
                         </thead>
                         <tbody>
                         @if($accounts->count() > 0)
+
                             @foreach($accounts as $account)
+
                         <tr id="account_{{ $account->GameAccountInfo->account_id }}">
                             <td>
                                 <h6 class="ps-3">{{ $account->GameAccountInfo->account }}</h6>
                             </td>
                             <td>
-                                {{ $account->GameAccountInfo->email }}
+                                {{ $account->email }}
                             </td>
                             <td>
                                 @if($account->GameAccountInfo->block > 0)
@@ -41,9 +43,9 @@
                                     <span class="badge bg-gradient-success">No</span>
                                 @endif
                             </td>
-                            <td>
-                                {{ $account->charactersCount}}
-                            </td>
+{{--                            <td>--}}
+{{--                                {{ $account->charactersCount}}--}}
+{{--                            </td>--}}
                             <td>
                                 {{ $account->balance }} <span class="text-primary font-weight-bold">SA</span>
                             </td>

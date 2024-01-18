@@ -19,23 +19,25 @@ use Illuminate\Support\Str;
 class AccountController extends Controller
 {
     public function index() {
-        $accounts = User::paginate(10);
+        $accounts = User::paginate(5);
         $servers = Server::all();
         if ($servers->count() < 1) return redirect()->back()->with('error', 'You need to add server!');
-        foreach ($accounts as $account) {
-            $charactersCountForAccount = 0;
-            foreach ($servers as $key => $server) {
-                DB::connection('telecaster_db')->disconnect();
-                Config::set("database.connections.telecaster_db", ['driver' => 'sqlsrv','host' => $server->db_ip, 'port' => $server->db_port, 'database' => $server->telecaster_db, 'username' => $server->username, 'password'=>$server->password]);
-                DB::reconnect('telecaster_db');
+        /* Disable the counting of all characters on different servers cause it takes too much time */
+//        foreach ($accounts as $account) {
+//            $charactersCountForAccount = 0;
+//            foreach ($servers as $key => $server) {
+//                DB::connection('telecaster_db')->disconnect();
+//                Config::set("database.connections.telecaster_db", ['driver' => 'sqlsrv','host' => $server->db_ip, 'port' => $server->db_port, 'database' => $server->telecaster_db, 'username' => $server->username, 'password'=>$server->password]);
+//                DB::reconnect('telecaster_db');
+//
+//                $charactersCount = isset($account->GameAccountInfo->Characters) ? $account->GameAccountInfo->Characters->count() : 0;
+//
+//                $charactersCountForAccount += $charactersCount;
+//            }
+//
+//            $account->charactersCount = $charactersCountForAccount;
+//        }
 
-                $charactersCount = $account->GameAccountInfo->Characters->count();
-
-                $charactersCountForAccount += $charactersCount;
-            }
-
-            $account->charactersCount = $charactersCountForAccount;
-        }
 
         return view('admin.accounts.index', compact('accounts'));
     }

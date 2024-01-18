@@ -14,7 +14,6 @@ use Ramsey\Uuid\Uuid;
 class IndexController extends Controller
 {
     public function index() {
-        dd(mt_rand(100000, 999999));
         $totalAccounts = GameAuthAccount::all()->count();
         $totalCharacters = 0;
         $servers = Server::all();
