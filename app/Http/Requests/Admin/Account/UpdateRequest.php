@@ -22,7 +22,11 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string',
+            'password' => 'nullable|string',
+            'email' => 'required|string',
+            'Admin' => 'required|integer',
+            'block' => 'required|integer',
+            'balance' => 'required|integer'
         ];
     }
 }

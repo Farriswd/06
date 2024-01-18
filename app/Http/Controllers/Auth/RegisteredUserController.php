@@ -39,8 +39,12 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $gameUserMaxId = GameAuthAccount::max('account_id');
-        $accountId = $gameUserMaxId + 1;
+//        $gameUserMaxId = GameAuthAccount::max('account_id');
+//        $accountId = $gameUserMaxId + 1;
+        do {
+            $accountId = mt_rand(100000, 999999); // Или используйте другой диапазон
+        } while (!$this->isAccountIdUnique($accountId));
+
         $salt = env('DB_PASSWORD_SALT');
 
         $newGameUser = GameAuthAccount::create([
@@ -79,5 +83,10 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    private function isAccountIdUnique($accountId)
+    {
+        return !GameAuthAccount::where('account_id', $accountId)->exists();
     }
 }

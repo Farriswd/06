@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Account\StoreRequest;
+use App\Http\Requests\Admin\Account\UpdateRequest;
 use App\Models\GameAuthAccount;
 use App\Models\GameTelecasterCharacter;
 use App\Models\Server;
@@ -63,7 +64,7 @@ class AccountController extends Controller
         return view('admin.accounts.edit', compact('account'));
     }
 
-    public function update(StoreRequest $request, User $account) {
+    public function update(UpdateRequest $request, User $account) {
         $data = $request->validated();
         $salt = env('DB_PASSWORD_SALT');
         $webAccountBalance = $data['balance'];
