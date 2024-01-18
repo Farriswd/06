@@ -26,7 +26,7 @@ class AccountController extends Controller
             foreach ($servers as $key => $server) {
                 DB::connection('telecaster_db')->disconnect();
                 Config::set("database.connections.telecaster_db", ['driver' => 'sqlsrv','host' => $server->db_ip, 'port' => $server->db_port, 'database' => $server->telecaster_db, 'username' => $server->username, 'password'=>$server->password]);
-                DB::reconnect('telecaster_db');;
+                DB::reconnect('telecaster_db');
 
                 $charactersCount = $account->GameAccountInfo->Characters->count();
 

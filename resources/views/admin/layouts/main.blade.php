@@ -678,6 +678,47 @@
         /* Account update function end */
 
 
+        /* Character update function start */
+        @if(\Illuminate\Support\Facades\Route::currentRouteNamed('admin.characters.edit'))
+        $('#save_character').on('click',(function (e){
+            e.preventDefault();
+            let formData = new FormData($("#edit_character")[0]);
+            formData.append('_method', 'PATCH');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('admin.characters.update', ['server' => $server->id, 'character' => $character->sid]) }}",
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    Toastify({
+                        text: "Saved successfully!",
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                        }
+                    }).showToast();
+                },
+                error: function (response) {
+                    console.log(response);
+                    Toastify({
+                        text: response.responseJSON.message,
+                        className: "danger",
+                        style: {
+                            background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+                        }
+                    }).showToast();
+                }
+            });
+        }));
+        @endif
+        /* Character update function end */
+
         /* Common Toast notifies start */
             @if(session('success'))
                 Toastify({

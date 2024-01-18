@@ -72,6 +72,8 @@ Route::group(['prefix' => 'admin'], function() {
 
     Route::group(['prefix' => 'characters'], function() {
        Route::get('/server/{server}', [\App\Http\Controllers\Admin\GameCharacterController::class, 'index'])->name('admin.characters.index');
+       Route::get('/edit/{server}/{character}', [\App\Http\Controllers\Admin\GameCharacterController::class, 'edit'])->name('admin.characters.edit');
+       Route::patch('/update/{server}/{character}', [\App\Http\Controllers\Admin\GameCharacterController::class, 'update'])->name('admin.characters.update');
     });
 });
 

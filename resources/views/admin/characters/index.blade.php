@@ -6,7 +6,7 @@
             <div class="card-header pb-0">
                 <div class="row">
                     <div class="col-lg-6 col-7">
-                        <h6>Account Characters</h6>
+                        <h6>Account Characters ({{ $characters->count() }})</h6>
                     </div>
                 </div>
             </div>
@@ -15,10 +15,11 @@
                     <thead>
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Race</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Job</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Level</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Guild</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Server</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -27,15 +28,19 @@
 
                             <tr>
                                 <td class="ps-4">
-                                    <p class="text-dark font-weight-bold">{{ $character['name'] }}</p>
+                                    <p class="text-dark font-weight-bold">{{ $character->name }}</p>
+                                </td>
+                                <td class="ps-4">
+                                    <p class="text-dark font-weight-bold">{{ $character->RaceName }}</p>
                                 </td>
                                 <td>
-                                    <img src="{{ asset('jobs/'.$character['job'].'.jpg') }}" alt="">
+                                    <img src="{{ asset('jobs/'.$character->job.'.jpg') }}" alt="">
                                 </td>
                                 <td>
-                                    <p class="text-dark font-weight-bold">{{ $character['lv'] }}</p>
+                                    <p class="text-dark font-weight-bold">{{ $character->lv }}</p>
                                 </td>
                                 <td>
+                                    non
                                     {{--                                @if($character->CharacterGuild)--}}
                                     {{--                                <div class="d-flex">--}}
                                     {{--                                    <div>--}}
@@ -48,7 +53,7 @@
                                     {{--                                @endif--}}
                                 </td>
                                 <td>
-                                    <p class="text-dark font-weight-bold">{{ $character['server_name'] }}</p>
+                                    <a href="{{ route('admin.characters.edit', ['server' => $server->id, 'character' => $character->sid]) }}" class="btn btn-success"><i class="fas fa-pen"></i></a>
                                 </td>
                             </tr>
                         @endforeach

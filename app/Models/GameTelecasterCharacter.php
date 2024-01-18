@@ -28,8 +28,31 @@ class GameTelecasterCharacter extends Model
         'job',
         'gold'
     ];
+    public $timestamps = false;
 
     public function getCharacterGuildAttribute() {
         return GameTelecasterGuildMember::where('player_id', $this->sid)->first();
+    }
+    public function getRaceNameAttribute() {
+        switch ($this->attributes['race']) {
+            case 3:
+                return 'Gaia';
+            case 4:
+                return 'Deva';
+            case 5:
+                return 'Asura';
+            default:
+                return 'Unknown race';
+        }
+    }
+    public function getSexNameAttribute() {
+        switch ($this->attributes['sex']) {
+            case 1:
+                return 'Girl';
+            case 2:
+                return 'Boy';
+            default:
+                return 'Unknown sex';
+        }
     }
 }
