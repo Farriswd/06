@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Server extends Model
 {
     use HasFactory;
-
+    protected $connection = 'sqlsrv';
     protected $fillable = [
         'title',
         'auth_ip',

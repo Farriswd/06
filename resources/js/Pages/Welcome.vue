@@ -1,6 +1,13 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import MainLayout from '@/Layouts/MainLayout.vue';
+import {computed} from "vue";
+
+const props = defineProps({
+    news: Object
+});
+
+const newsEvents = computed(() => props.news.filter(post => post.category === 'Event'));
 
 </script>
 
@@ -11,60 +18,39 @@ import MainLayout from '@/Layouts/MainLayout.vue';
         <div class="newsBlock">
             <h2 class="content-title white-title">News <a href="#" class="more"><span></span><span></span></a></h2>
             <div class="newsFeed flex-s">
-                <a href="#" class="news" style="background-image: url(http://rz-sync.com.ua/assets/images/news-img_1.jpg)">
-                    <div class="news-info">
-                        <h3><span>[Hot]</span> Upcoming 22.10 x50 Nightmare</h3>
-                        <div class="date">10.09</div>
-                    </div>
-                </a>
-                <a href="#" class="news" style="background-image: url(http://rz-sync.com.ua/assets/images/news-img_2.jpg)">
-                    <div class="news-info">
-                        <h3><span>[Update]</span> New Fafurion Boss
-                            update</h3>
-                        <div class="date">10.09</div>
-                    </div>
-                </a>
-                <a href="#" class="news" style="background-image: url(http://rz-sync.com.ua/assets/images/news-img_3.jpg)">
-                    <div class="news-info">
-                        <h3><span>[Event]</span> Social Media Events</h3>
-                        <div class="date">10.09</div>
-                    </div>
-                </a>
+                <template v-if="news.length > 0">
+                    <a v-for="post in news" :key="post.id" href="#" class="news" :style="`background-image: url(${post.preview_image})`">
+                        <div class="news-info">
+                            <h3><span>[{{ post.category }}]</span> Upcoming 22.10 x50 Nightmare</h3>
+                            <div class="date">10.09</div>
+                        </div>
+                    </a>
+                </template>
+                <template v-else>
+                    <h2>No news!</h2>
+                </template>
             </div>
         </div>
         <div class="eventsBlock">
             <h2 class="content-title white-title">Events <a href="#" class="more"><span></span><span></span></a></h2>
             <!-- Swiper -->
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="" class="swiper-link">
-                            <img src="/assets/images/slider-img.jpg" alt="">
-                            <p>Gift for news players</p>
-                        </a>
+            <template v-if="newsEvents.length > 0">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div v-for="newsEvent in newsEvents" :key="newsEvent.id" class="swiper-slide">
+                            <a href="" class="swiper-link">
+                                <img :src="newsEvent.event_image" :alt="newsEvent.title">
+                                <p>{{ newsEvent.title }}</p>
+                            </a>
+                        </div>
                     </div>
-                    <div class="swiper-slide">
-                        <a href="" class="swiper-link">
-                            <img src="/assets/images/slider-img.jpg" alt="">
-                            <p>Gift for news players</p>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="" class="swiper-link">
-                            <img src="/assets/images/slider-img.jpg" alt="">
-                            <p>Gift for news players</p>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="" class="swiper-link">
-                            <img src="/assets/images/slider-img.jpg" alt="">
-                            <p>Gift for news players</p>
-                        </a>
-                    </div>
-                </div>
-                <!-- Add Pagination -->
-                <div class="swiper-pagination"></div>
-            </div><!--swiper-container-->
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div><!--swiper-container-->
+            </template>
+            <template v-else>
+                <h2>No Events</h2>
+            </template>
         </div>
     </div><!--block-->
     <div class="block blockBorder">

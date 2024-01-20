@@ -23,12 +23,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/get/characters', [ProfileController::class, 'getCharacters'])->name('profile.get.characters');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::group(['prefix' => 'admin'], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function() {
     Route::get('/', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('admin.index');
 
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('admin.settings.index');
@@ -94,9 +96,14 @@ Route::group(['prefix' => 'admin'], function() {
             Route::patch('/update/{product}', [\App\Http\Controllers\Admin\Shop\ProductController::class, 'update'])->name('admin.shop.products.update');
             Route::delete('/delete/{product}', [\App\Http\Controllers\Admin\Shop\ProductController::class, 'delete'])->name('admin.shop.products.delete');
         });
+        Route::group(['prefix' => 'orders'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\Shop\OrderController::class, 'index'])->name('admin.shop.orders.index');
+            Route::get('/{order}', [\App\Http\Controllers\Admin\Shop\OrderController::class, 'show'])->name('admin.shop.orders.show');
+        });
     });
+    Route::get('test/console', [\App\Http\Controllers\GameServerController::class, 'console'])->name('console');
 });
 
 Route::get('/game-server/status/{server}', [\App\Http\Controllers\GameServerController::class, 'check'])->name('check.server.status');
-Route::get('test/console', [\App\Http\Controllers\GameServerController::class, 'console'])->name('console');
+
 require __DIR__.'/auth.php';

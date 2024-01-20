@@ -163,7 +163,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ \Illuminate\Support\Facades\Route::currentRouteNamed('admin.characters.index') ? 'active' : '' }} " href="{{ route('admin.index') }}">
+                <a class="nav-link {{ \Illuminate\Support\Facades\Route::currentRouteNamed('admin.shop.orders.*') ? 'active' : '' }} " href="{{ route('admin.shop.orders.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center text-dark me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-receipt text-dark fs-6"></i>
                     </div>

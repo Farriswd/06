@@ -65,7 +65,7 @@ const submit = () => {
                     required
                     autocomplete="current-password"
                 />
-
+0
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 

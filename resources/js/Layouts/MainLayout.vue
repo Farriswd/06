@@ -1,7 +1,7 @@
 <template>
     <div class="socBlock">
-        <a href="" class="fb"></a>
-        <a href="" class="dc"></a>
+        <a :href="webSiteSettings.facebook_link" class="fb"></a>
+        <a :href="webSiteSettings.discord_link" class="dc"></a>
     </div>
     <div class="toTop buttonTop">
         TOP
@@ -12,21 +12,21 @@
             <span></span>
             <span></span>
         </div>
-        <a href="/" class="topPanel-logo"><img src="/assets/images/logo-white.png" alt="Logo"></a>
+        <a href="/" class="topPanel-logo"><img :src="webSiteSettings.header_logo" :alt="webSiteSettings.title"></a>
         <nav class="nav flex-c">
             <div class="topPanel-menu flex-c">
                 <ul class="menu flex">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Create account</a></li>
-                    <li>
-                        <a data-class="m_3" class="menu-a">Game</a>
-                        <ul class="dropDown-menu m_3">
-                            <li><a href="">Statistic</a></li>
-                            <li><a href="">Guides</a></li>
-                            <li><a href="">Support</a></li>
-                            <li><a href="">Characters & Races</a></li>
-                        </ul>
-                    </li>
+                    <li><Link :href="route('index')">Home</Link></li>
+                    <li v-if="!authUser"><a href="#">Create account</a></li>
+<!--                    <li>-->
+<!--                        <a data-class="m_3" class="menu-a">Game</a>-->
+<!--                        <ul class="dropDown-menu m_3">-->
+<!--                            <li><a href="">Statistic</a></li>-->
+<!--                            <li><a href="">Guides</a></li>-->
+<!--                            <li><a href="">Support</a></li>-->
+<!--                            <li><a href="">Characters & Races</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
                     <li>
                         <a data-class="m_4" class="menu-a">Community</a>
                         <ul class="dropDown-menu m_4">
@@ -36,35 +36,34 @@
                             <li><a href="">Characters & Races</a></li>
                         </ul>
                     </li>
+                    <li v-if="authUser"><a href="#">Shop</a></li>
                 </ul>
             </div>
             <div class="topPanel-button flex-c">
-                <a href="#modal-login" class="loginButton bright open_modal">Log In</a>
+                <a v-if="!authUser" href="#modal-login" class="loginButton bright open_modal">Log In</a>
+                <template v-if="authUser">
+                    <a href="#modal-user" class="loginButton bright open_modal">{{ authUser.name }}</a>
+                    <span class="balance">Balance: {{ authUser.balance }} <span>SA</span></span>
+                </template>
                 <a href="" class="downloadButton bright">Download</a>
             </div>
         </nav>
         <div class="topSocBlock socBlock">
-            <a href="" class="fb"></a>
-            <a href="" class="dc"></a>
+            <a :href="webSiteSettings.facebook_link" class="fb"></a>
+            <a :href="webSiteSettings.discord_link" class="dc"></a>
         </div>
     </div><!--topPanel-->
 
     <div class="wrapper">
         <header class="header">
-            <div class="logo"><a href="/"><img src="/assets/images/logo-dark.png" alt="Logo"></a></div>
+            <div class="logo"><a href="/"><img :src="webSiteSettings.main_logo" :alt="webSiteSettings.title"></a></div>
             <div class="serverBlock flex">
-                <div class="server server_1">
-                    <p>X50 Nightmare</p>
-                    <span>Upcoming 22.10</span>
-                </div>
-                <div class="server server_2">
-                    <p>X300 Paradise</p>
-                    <span>9864</span>
-                </div>
-                <div class="server server_3">
-                    <p>X1000 Warland</p>
-                    <span>7853</span>
-                </div>
+                <template v-if="servers.length > 0">
+                    <div v-for="server in servers" :key="server.id" class="server" :style="`background: url(${server.image}) top no-repeat`">
+                        <p>{{ server.title }}</p>
+                        <span v-html="serverStatus[server.id]"></span>
+                    </div>
+                </template>
             </div>
             <div class="stars">
                 <span class="star_1"></span>
@@ -87,7 +86,7 @@
         <div class="footerTopBlock">
             <div class="container">
                 <div class="footerLogo">
-                    <a href="/"><img src="/assets/images/logo-white.png" alt="Logo"></a>
+                    <a href="/"><img :src="webSiteSettings.footer_logo" :alt="webSiteSettings.title"></a>
                 </div>
                 <ul class="flex-c-c">
                     <li><a href="">Terms of service</a></li>
@@ -95,39 +94,124 @@
                 </ul>
             </div>
         </div><!--footerTopBlock-->
-        <div class="footerBottomBlock">
-            <p><span>© 2019</span> Giran: Lineage 2</p>
-            <p>This server is a test option of the game Rappelz and is intended only for the acquaintance of players.</p>
-            <p>All rights owned by Gala Lab Corp</p>
+        <div class="footerBottomBlock" v-html="webSiteSettings.copyright_text">
+
         </div><!--footerBottomBlock-->
     </footer><!-- .footer -->
 
-    <div id="modal-login" class="modal_div t-center">
+    <div v-if="!authUser" id="modal-login" class="modal_div t-center">
         <div class="modal_close">
             <span></span>
             <span></span>
         </div><!--modal_close-->
         <h1>Login</h1>
-        <a href="#"><img src="/assets/images/facebook-button.png" alt=""></a>
-        <div class="or">Or</div>
-        <form class="form-width">
-            <p><input type="text" placeholder="Login"></p>
-            <p><input type="password" placeholder="Password"></p>
-            <p><button>ok</button></p>
+        <form class="form-width" @submit.prevent="authSubmit">
+            <p>
+                <input
+                    id="login"
+                    type="text"
+                    placeholder="Login"
+                    required
+                    v-model="authForm.name"
+                    autocomplete="username"
+                >
+                <InputError class="mt-2" :message="authForm.errors.name" />
+            </p>
+            <p>
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                    required
+                    v-model="authForm.password"
+                    autocomplete="current-password"
+                >
+                <InputError class="mt-2" :message="authForm.errors.password" />
+            </p>
+
+            <div class="formGroup">
+                <button type="submit" :disabled="authForm.processing">
+                    <div v-if="authForm.processing" class="loader loader-sm">
+                        <div class="inner one"></div>
+                        <div class="inner two"></div>
+                        <div class="inner three"></div>
+                    </div>
+                    Log in
+                </button>
+            </div>
+
         </form>
         <div class="formlinks">
             <p><a href="#">Forgot your password ?</a></p>
-            <p>Dont`t have an account ? <a href="" class="reg">Register</a></p>
+            <p>Dont`t have an account ? <Link :href="route('register')" class="reg">Register</Link></p>
+        </div>
+    </div>
+    <div v-if="authUser" id="modal-user" class="modal_div t-center">
+        <div class="modal_close">
+            <span></span>
+            <span></span>
+        </div><!--modal_close-->
+        <h1>Hello, {{ authUser.name }}</h1>
+        <div class="modal-body">
+            <ul>
+                <li class="link-item"><Link :href="route('profile.index')">Profile</Link></li>
+                <li class="link-item"><Link :href="route('logout')" method="post" as="button">Logout</Link></li>
+            </ul>
         </div>
     </div>
     <div id="overlay"></div>
-
-
 </template>
 
 <script setup>
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import $ from 'jquery';
+import {router, usePage, Link, useForm} from '@inertiajs/vue3';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+
+const authUser = usePage().props.auth.user;
+const webSiteSettings = usePage().props.settings.data;
+const servers = usePage().props.servers;
+const serverStatus = ref({});
+
+const authForm = useForm({
+    name: '',
+    password: '',
+    remember: false,
+});
+
+const authSubmit = () => {
+    authForm.post(route('login'), {
+        onFinish: () => authForm.reset('password'),
+    });
+};
+
+/* Check Server Availability */
+const checkAllServersStatus = async () => {
+    await Promise.all(servers.map(server => checkServerStatus(server.id)));
+}
+const checkServerStatus = async (id) => {
+    try {
+        serverStatus.value = {
+            ...serverStatus.value,
+            [id]:
+                '<div class="loader">\n' +
+                '  <div class="inner one"></div>\n' +
+                '  <div class="inner two"></div>\n' +
+                '  <div class="inner three"></div>\n' +
+                '</div>' };
+        const response = await axios.get(route('check.server.status', id));
+        serverStatus.value = {
+            ...serverStatus.value,
+            [id]: response.data === 'Online' ?
+                '<span class="online">On</span>'
+                :
+                '<span class="offline">Off</span>' };
+    } catch (error) {
+        console.error(`Error checking status for server ${id}`, error);
+        serverStatus.value = { ...serverStatus.value, [id]: '<span class="offline">Off</span>' };
+    }
+}
 
 onMounted(() => {
     var res = $(".dropDown-menu");
@@ -203,6 +287,8 @@ onMounted(() => {
             clickable: true,
         },
     });
+
+    checkAllServersStatus();
 });
 </script>
 
