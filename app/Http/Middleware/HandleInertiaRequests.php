@@ -2,8 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Cart;
+use App\Http\Resources\CartResource;
 use App\Http\Resources\ServerResource;
 use App\Http\Resources\SettingsResource;
+use App\Models\CartItem;
 use App\Models\Server;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -47,6 +50,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'settings' => new SettingsResource(Setting::first()),
             'servers' => Server::all()->count() > 0 ? ServerResource::collection(Server::all())->resolve() : '',
+            'cart' => auth()->check() ? new CartResource(Cart::getProductsAndCartItems()) : '',
         ];
     }
 }

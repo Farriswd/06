@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NewsResource extends JsonResource
+class ProductCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +15,8 @@ class NewsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'title' => $this->title,
-            'preview_image' => url('/storage/'.$this->preview_image),
-            'event_image' => url('/storage/'.$this->event_image),
-            'date' => $this->created_at->format('m.d'),
-            'category' => $this->category->title
+            'id' => $this->id,
+            'title' => $this->title
         ];
     }
 }

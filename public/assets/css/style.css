@@ -522,6 +522,30 @@ button:hover, .button:hover {
   right: 0;
 }
 
+.cart {
+    font-size: 24px;
+    margin-left: 10px;
+    margin-top: -0.2rem;
+    position: relative;
+}
+
+.cart span {
+    font-size: 12px;
+    position: absolute;
+    content: "";
+    padding: 5px 7px;
+    background: #460c4b;
+    border-radius: 50%;
+    top: -20%;
+    right: -60%;
+}
+
+.cart:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 10px 15px -3px rgb(215, 52, 236);
+}
+
+
 .modal_div {
   max-width: 430px;
   width: 100%;
@@ -1284,5 +1308,144 @@ button:hover, .button:hover {
 .white-title {
   color: #fff;
 }
+
+.login {
+    color: #ffffff;
+    text-shadow: 2px 4px 8px #000000;
+    padding-top: 30%;
+}
+
+.login form a{
+    color: #ffffff;
+    text-shadow: 2px 2px 2px #000000;
+}
+
+.register {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: #ffffff;
+    text-shadow: 2px 4px 8px #000000;
+}
+
+.register form a {
+    color: #ffffff;
+    text-shadow: 2px 2px 2px #000000;
+}
+
+.categories {
+    width: 100%;
+}
+
+.categories-list ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.category-link {
+    color: #1a202c;
+    transition: all .2s ease;
+    position: relative;
+}
+
+.category-link::before {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 3px;
+    background: #AC24C4;
+    bottom: 0;
+    transition: all .2s ease;
+}
+
+.category-link:hover::before {
+    width: 100%;
+}
+
+.category-link:hover {
+    color: #AC24C4;
+}
+
+.category-link.active {
+    color: #AC24C4;
+}
+.category-link.active::before {
+    width: 100%;
+}
+
+.products {
+    margin-top: 40px;
+    width: 100%;
+}
+
+.products-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.product-card {
+    width: 18%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #0f0f0f;
+    padding: 10px;
+}
+
+.card-body p {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.card-image {
+    margin-block: 2rem;
+}
+
+.card-footer p {
+    font-weight: 600;
+}
+
+.card-footer p span {
+    color: #e8026f;
+}
+
+.pagination-section {
+    margin-top: 30px;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagination a.active {
+    background-color: #6340a4;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.d-none {
+    display: none;
+}
+
+.cart-section {
+    padding-top: 200px;
+}
+
 
 /*# sourceMappingURL=style.css.map */

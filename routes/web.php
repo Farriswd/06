@@ -28,6 +28,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::group(['prefix' => 'shop'], function (){
+        Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
+        Route::get('/category/{category}', [\App\Http\Controllers\ShopController::class, 'productsByCategory'])->name('shop.products.by.category');
+
+        Route::group(['prefix' => 'cart'], function (){
+            Route::get('/', [\App\Http\Controllers\CartController::class, 'index'])->name('shop.cart.index');
+            Route::post('/store', [\App\Http\Controllers\CartController::class, 'store'])->name('shop.cart.store');
+            Route::patch('/update/{product}', [\App\Http\Controllers\CartController::class, 'update'])->name('shop.cart.update');
+            Route::delete('/delete/{product}', [\App\Http\Controllers\CartController::class, 'delete'])->name('shop.cart.delete');
+
+            Route::post('/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->name('shop.cart.checkout');
+        });
+    });
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function() {

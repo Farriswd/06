@@ -17,7 +17,7 @@
             <div class="topPanel-menu flex-c">
                 <ul class="menu flex">
                     <li><Link :href="route('index')">Home</Link></li>
-                    <li v-if="!authUser"><a href="#">Create account</a></li>
+                    <li v-if="!authUser"><Link :href="route('register')">Create account</Link></li>
 <!--                    <li>-->
 <!--                        <a data-class="m_3" class="menu-a">Game</a>-->
 <!--                        <ul class="dropDown-menu m_3">-->
@@ -36,7 +36,7 @@
                             <li><a href="">Characters & Races</a></li>
                         </ul>
                     </li>
-                    <li v-if="authUser"><a href="#">Shop</a></li>
+                    <li v-if="authUser"><Link :href="route('shop.index')">Shop</Link></li>
                 </ul>
             </div>
             <div class="topPanel-button flex-c">
@@ -44,6 +44,7 @@
                 <template v-if="authUser">
                     <a href="#modal-user" class="loginButton bright open_modal">{{ authUser.name }}</a>
                     <span class="balance">Balance: {{ authUser.balance }} <span>SA</span></span>
+                    <Link class="cart" :href="route('shop.cart.index')"><i class="fa-solid fa-bag-shopping"></i><span v-if="totalCartItems > 0">{{ totalCartItems }}</span></Link>
                 </template>
                 <a href="" class="downloadButton bright">Download</a>
             </div>
@@ -55,7 +56,7 @@
     </div><!--topPanel-->
 
     <div class="wrapper">
-        <header class="header">
+        <header class="header" v-if="!route().current('shop.cart.index')">
             <div class="logo"><a href="/"><img :src="webSiteSettings.main_logo" :alt="webSiteSettings.title"></a></div>
             <div class="serverBlock flex">
                 <template v-if="servers.length > 0">
@@ -163,12 +164,16 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch, watchEffect} from "vue";
 import $ from 'jquery';
 import {router, usePage, Link, useForm} from '@inertiajs/vue3';
+import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
+const page = usePage();
+const totalCartItems = computed(()=>page.props.cart.data.count);
 const authUser = usePage().props.auth.user;
 const webSiteSettings = usePage().props.settings.data;
 const servers = usePage().props.servers;
@@ -214,6 +219,35 @@ const checkServerStatus = async (id) => {
 }
 
 onMounted(() => {
+    watchEffect(() => {
+       if (page.props.flash.success) {
+            Toastify({
+                text: `${page.props.flash.success}`,
+                gravity: 'top',
+                position: 'center',
+                style: {
+                    background: "linear-gradient(310deg,#17ad37,#84dc14)",
+                }
+            }).showToast();
+       }
+       if (page.props.flash.error) {
+           Toastify({
+               text: `${page.props.flash.error}`,
+               gravity: 'top',
+               position: 'center',
+               style: {
+                   background: "linear-gradient(310deg,#ea0606,#ff3d59)",
+               }
+           }).showToast();
+       }
+        if (page.props.flash.info) {
+            Toastify({
+                text: `${page.props.flash.info}`,
+                gravity: 'top',
+                position: 'center',
+            }).showToast();
+        }
+    });
     var res = $(".dropDown-menu");
     $('[data-class^="m"]').on("click", funk);
 

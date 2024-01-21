@@ -21,8 +21,8 @@ const newsEvents = computed(() => props.news.filter(post => post.category === 'E
                 <template v-if="news.length > 0">
                     <a v-for="post in news" :key="post.id" href="#" class="news" :style="`background-image: url(${post.preview_image})`">
                         <div class="news-info">
-                            <h3><span>[{{ post.category }}]</span> Upcoming 22.10 x50 Nightmare</h3>
-                            <div class="date">10.09</div>
+                            <h3><span>[{{ post.category }}]</span> {{ post.title }}</h3>
+                            <div class="date">{{ post.date }}</div>
                         </div>
                     </a>
                 </template>
