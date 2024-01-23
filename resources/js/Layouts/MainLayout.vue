@@ -187,7 +187,9 @@ const authForm = useForm({
 
 const authSubmit = () => {
     authForm.post(route('login'), {
-        onFinish: () => authForm.reset('password'),
+        onFinish: () => {
+            authForm.reset('password')
+        },
     });
 };
 

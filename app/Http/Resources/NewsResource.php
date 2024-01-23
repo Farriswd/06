@@ -16,6 +16,7 @@ class NewsResource extends JsonResource
     {
         return [
             'title' => $this->title,
+            'content' => $this->content,
             'preview_image' => url('/storage/'.$this->preview_image),
             'event_image' => url('/storage/'.$this->event_image),
             'date' => $this->created_at->format('m.d'),

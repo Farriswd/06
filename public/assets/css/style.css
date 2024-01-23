@@ -1446,6 +1446,49 @@ button:hover, .button:hover {
 .cart-section {
     padding-top: 200px;
 }
+.blog-section {
+    width: 100%;
+}
 
+.posts {
+    margin-bottom: 20px;
+    height: 600px;
+    overflow-y: scroll;
+    padding: 20px;
+}
+
+.post-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
+.post-card {
+    width: 100%;
+    display: flex;
+    column-gap: 50px;
+}
+
+.post-body {
+    position: relative;
+    width: 80%;
+}
+
+.post-image {
+    position: relative;
+    overflow: hidden;
+    transition: all .2s ease;
+}
+.post-image:hover {
+    transform: scale(1.1);
+}
+.post-image span {
+    position: absolute;
+    width: 100%;
+    background: rgba(0,0,0, 0.7);
+    bottom: 2%;
+    left: 0;
+    color: #ffffff;
+    padding: 10px;
+}
 
 /*# sourceMappingURL=style.css.map */

@@ -18,9 +18,9 @@ use Inertia\Inertia;
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->name('index');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::group(['prefix' => 'posts'], function (){
+    Route::get('/', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');

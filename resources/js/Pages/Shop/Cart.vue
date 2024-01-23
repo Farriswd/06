@@ -15,7 +15,7 @@
                                 <p>{{ product.description }}</p>
                                 <p>
                                     <span class="btn minus" @click.prevent="update(product, carts[itemId(product.id)].quantity - 1)" :class="carts[itemId(product.id)].quantity > 1 ? '' : 'd-none'">-</span>
-                                    <input class="quantity" type="number" min="1" v-model="carts[itemId(product.id)].quantity">
+                                    <input class="quantity" @change.prevent="update(product, carts[itemId(product.id)].quantity)" type="number" min="1" v-model="carts[itemId(product.id)].quantity">
                                     <span class="btn plus" @click.prevent="update(product, carts[itemId(product.id)].quantity + 1)">+</span>
                                 </p>
                             </div>
@@ -46,6 +46,7 @@ import {computed, onBeforeUnmount, onMounted, ref, toRefs} from "vue";
 import {Head, Link, router, usePage} from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue';
 import Products from '@/Pages/Shop/Partials/Products.vue';
+import Swal from "sweetalert2";
 
 const page = usePage();
 const authUser = page.props.auth.user
@@ -70,18 +71,41 @@ const itemId = (id) => carts.value.findIndex((item) => item.product_id == id);
  * @param product
  * @param quantity
  */
-const update = (product, quantity) => {
-    router.patch(route('shop.cart.update', product),
-        {
+const update = async (product, quantity) => {
+    try {
+        isProcessing.value = true;
+        const response = await axios.patch(route('shop.cart.update', product), {
             quantity
-        }, {
-            preserveScroll:true
+        });
+
+        if (response.data.success) {
+            router.reload({ only: ['cart'] })
+            isProcessing.value = false;
+        } else {
+            console.log(response.data)
         }
-    );
+    } catch (error) {
+        console.error(error)
+    }
+
+    // router.patch(route('shop.cart.update', product),
+    //     {
+    //         quantity
+    //     }, {
+    //         preserveScroll:true,
+    //         onSuccess: () => {
+    //             isProcessing.value = false;
+    //         }
+    //     }
+    // );
 }
 const remove = (product) => {
+    isProcessing.value = true;
     router.delete(route('shop.cart.delete', product), {
-        preserveScroll: true
+        preserveScroll: true,
+        onFinish: () => {
+            isProcessing.value = false;
+        }
     })
 }
 
@@ -199,7 +223,7 @@ h2 .price {
     margin-top: 30px;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content:flex-end;
     column-gap: 30px;
 }
 </style>

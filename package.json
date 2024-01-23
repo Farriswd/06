@@ -18,6 +18,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "@vue/server-renderer": "^3.4.15",
         "jquery": "^3.7.1",
         "sweetalert2": "^11.10.3",
         "toastify-js": "^1.12.0"

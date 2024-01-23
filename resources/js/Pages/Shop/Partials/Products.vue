@@ -51,18 +51,38 @@ const loaderHtml = ref(`
 const addToCart = async (product, index) => {
     isProcessing.value[index] = true;
 
-    await router.post(route('shop.cart.store'), {id: product.id, quantity: 1},{
-        onSuccess: (page) => {
+    // router.post(route('shop.cart.store'), {id: product.id, quantity: 1},{
+    //     onSuccess: (page) => {
+    //         isProcessing.value[index] = false;
+    //         Swal.fire({
+    //             title: 'Success',
+    //             text: 'Product added successfully!',
+    //             icon: 'success',
+    //             confirmButtonText: 'Ok'
+    //         })
+    //     },
+    //     preserveScroll: true,
+    // });
+
+    try {
+        const response = await axios.post(route('shop.cart.store'), { id: product.id, quantity: 1 });
+
+        if (response.data.success) {
+            router.reload({ only: ['cart'] })
             isProcessing.value[index] = false;
+
             Swal.fire({
                 title: 'Success',
                 text: 'Product added successfully!',
                 icon: 'success',
                 confirmButtonText: 'Ok'
-            })
-        },
-        preserveScroll: true,
-    });
+            });
+        } else {
+            console.log(response.data)
+        }
+    } catch (error) {
+        console.error(error)
+    }
 
 }
 </script>

@@ -224,8 +224,11 @@
   }
 
   table tr {
-    display: flex;
-    flex-wrap: wrap;
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+  }
+  .responsive {
+      overflow-x: scroll;
   }
   table tr td {
     width: 50%;
@@ -314,4 +317,15 @@
     .product-card {
         width: 100%;
     }
+
+
+    .posts {
+        height: 400px;
+    }
+    .post-title h2 {
+    font-size: 18px;
+}
+.post-description {
+    font-size: 14px;
+}
 }
