@@ -16,15 +16,15 @@ const newsEvents = computed(() => props.news.filter(post => post.category === 'E
 <MainLayout>
     <div class="flex-s block">
         <div class="newsBlock">
-            <h2 class="content-title white-title">News <a href="#" class="more"><span></span><span></span></a></h2>
+            <h2 class="content-title white-title">News <Link :href="route('blog.index')" class="more"><span></span><span></span></Link></h2>
             <div class="newsFeed flex-s">
                 <template v-if="news.length > 0">
-                    <a v-for="post in news" :key="post.id" href="#" class="news" :style="`background-image: url(${post.preview_image})`">
+                    <Link v-for="post in news" :key="post.id" :href="route('blog.show', post.id)" class="news" :style="`background-image: url(${post.preview_image})`">
                         <div class="news-info">
                             <h3><span>[{{ post.category }}]</span> {{ post.title }}</h3>
                             <div class="date">{{ post.date }}</div>
                         </div>
-                    </a>
+                    </Link>
                 </template>
                 <template v-else>
                     <h2>No news!</h2>
@@ -32,16 +32,16 @@ const newsEvents = computed(() => props.news.filter(post => post.category === 'E
             </div>
         </div>
         <div class="eventsBlock">
-            <h2 class="content-title white-title">Events <a href="#" class="more"><span></span><span></span></a></h2>
+            <h2 class="content-title white-title">Events <Link :href="route('blog.index')" class="more"><span></span><span></span></Link></h2>
             <!-- Swiper -->
             <template v-if="newsEvents.length > 0">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         <div v-for="newsEvent in newsEvents" :key="newsEvent.id" class="swiper-slide">
-                            <a href="" class="swiper-link">
+                            <Link :href="route('blog.show', newsEvent.id)" class="swiper-link">
                                 <img :src="newsEvent.event_image" :alt="newsEvent.title">
                                 <p>{{ newsEvent.title }}</p>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <!-- Add Pagination -->

@@ -28,12 +28,21 @@
 <!--                        </ul>-->
 <!--                    </li>-->
                     <li>
-                        <a data-class="m_4" class="menu-a">Community</a>
+                        <a data-class="m_4" class="menu-a">Info</a>
                         <ul class="dropDown-menu m_4">
-                            <li><a href="">Statistic</a></li>
+                            <li><Link :href="route('blog.index')">News</Link></li>
                             <li><a href="">Guides</a></li>
                             <li><a href="">Support</a></li>
                             <li><a href="">Characters & Races</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a data-class="m_5" class="menu-a">Top 100</a>
+                        <ul class="dropDown-menu m_5" v-if="servers.length > 0">
+                            <li v-for="server in servers" :key="server.id"><Link :href="route('top.server.index', server.id)">{{ server.title }}</Link></li>
+                        </ul>
+                        <ul class="dropDown-menu m_5" v-else>
+                            <li>No Servers</li>
                         </ul>
                     </li>
                     <li v-if="authUser"><Link :href="route('shop.index')">Shop</Link></li>
@@ -44,7 +53,8 @@
                 <template v-if="authUser">
                     <a href="#modal-user" class="loginButton bright open_modal">{{ authUser.name }}</a>
                     <span class="balance">Balance: {{ authUser.balance }} <span>SA</span></span>
-                    <Link class="cart" :href="route('shop.cart.index')"><i class="fa-solid fa-bag-shopping"></i><span v-if="totalCartItems > 0">{{ totalCartItems }}</span></Link>
+                    <Link v-if="totalCartItems > 0" class="cart" :href="route('shop.cart.index')"><i class="fa-solid fa-bag-shopping"></i><span>{{ totalCartItems }}</span></Link>
+                    <a v-if="totalCartItems < 1" class="cart" href="#" @click.prevent="cartEmpty"><i class="fa-solid fa-bag-shopping"></i></a>
                 </template>
                 <a href="" class="downloadButton bright">Download</a>
             </div>
@@ -56,7 +66,7 @@
     </div><!--topPanel-->
 
     <div class="wrapper">
-        <header class="header" v-if="!route().current('shop.cart.index')">
+        <header class="header" v-if="!(route().current('shop.cart.index') || route().current('blog.show') || route().current('payment.index'))">
             <div class="logo"><a href="/"><img :src="webSiteSettings.main_logo" :alt="webSiteSettings.title"></a></div>
             <div class="serverBlock flex">
                 <template v-if="servers.length > 0">
@@ -143,7 +153,7 @@
 
         </form>
         <div class="formlinks">
-            <p><a href="#">Forgot your password ?</a></p>
+            <p><Link :href="route('password.request')">Forgot your password ?</Link></p>
             <p>Dont`t have an account ? <Link :href="route('register')" class="reg">Register</Link></p>
         </div>
     </div>
@@ -156,6 +166,8 @@
         <div class="modal-body">
             <ul>
                 <li class="link-item"><Link :href="route('profile.index')">Profile</Link></li>
+                <li class="link-item"><Link :href="route('profile.orders')">My Orders</Link></li>
+                <li class="link-item"><Link :href="route('payment.index')">Get SA points</Link></li>
                 <li class="link-item"><Link :href="route('logout')" method="post" as="button">Logout</Link></li>
             </ul>
         </div>
@@ -192,6 +204,14 @@ const authSubmit = () => {
         },
     });
 };
+
+const cartEmpty = () => {
+    Toastify({
+        text: `Your cart is empty!`,
+        gravity: 'top',
+        position: 'center',
+    }).showToast();
+}
 
 /* Check Server Availability */
 const checkAllServersStatus = async () => {

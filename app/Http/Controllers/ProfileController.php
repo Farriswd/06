@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\ProfileOrdersResource;
 use App\Models\Server;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -94,5 +95,11 @@ class ProfileController extends Controller
             $account->gameCharacters = $account->gameCharacters->merge($characters->toArray());
         }
         return response()->json(['success' => true, 'data' => $account->gameCharacters]);
+    }
+
+    public function orders() {
+
+        $orders = ProfileOrdersResource::collection(auth()->user()->orders)->resolve();
+        return inertia('Profile/Orders', compact('orders'));
     }
 }

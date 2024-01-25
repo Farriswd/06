@@ -20,7 +20,10 @@ Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->name('
 
 Route::group(['prefix' => 'posts'], function (){
     Route::get('/', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+    Route::get('/{post}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
 });
+
+Route::get('top/{server}', [\App\Http\Controllers\TopServerController::class, 'index'])->name('top.server.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -28,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
 
     Route::group(['prefix' => 'shop'], function (){
         Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
@@ -41,6 +45,13 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->name('shop.cart.checkout');
         });
+    });
+
+    Route::group(['prefix' => 'payment'], function () {
+        Route::get('/', [\App\Http\Controllers\PaymentController::class, 'index'])->name('payment.index');
+        Route::post('/store', [\App\Http\Controllers\PaymentController::class, 'store'])->name('payment.store');
+        Route::get('/success', [\App\Http\Controllers\PaymentController::class, 'success'])->name('payment.success');
+        Route::get('/cancel', [\App\Http\Controllers\PaymentController::class, 'success'])->name('payment.cancel');
     });
 });
 

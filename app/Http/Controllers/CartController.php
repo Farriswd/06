@@ -55,7 +55,7 @@ class CartController extends Controller
         $user = $request->user();
 
         CartItem::query()->where(['user_id' => $user->id, 'product_id' => $product->id])->first()?->delete();
-        if (CartItem::count() <= 0) return redirect()->route('index')->with('info', 'Your Cart is empty');
+        if (CartItem::count() <= 0) return response()->json(['redirect' => true]);
         return response()->json(['success' => true]);
     }
 
@@ -178,6 +178,11 @@ class CartController extends Controller
             if (!$updateUserBalance) {
                 DB::rollBack();
                 return redirect()->route('index')->with('error', 'Could not update user balance.');
+            }
+            $updateOrderStatus = $order->update(['status' => 'success']);
+            if (!$updateOrderStatus){
+                DB::rollBack();
+                return redirect()->route('index')->with('error', 'Could not update order status.');
             }
             DB::commit();
         } catch (\Exception $e) {

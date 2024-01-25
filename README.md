@@ -54,7 +54,15 @@ Make sure that u created databases
     DB_USERNAME_AUTH=db_username
     DB_PASSWORD_AUTH=db_password
    
+    DB_CONNECTION_BILLING=sqlsrv
+    DB_HOST_BILLING=your_db_ip or 127.0.0.1
+    DB_PORT_BILLING=1433
+    DB_DATABASE_BILLING=db_name_of_billing
+    DB_USERNAME_BILLING=db_username
+    DB_PASSWORD_BILLING=db_password
+   
     DB_PASSWORD_SALT=2011
+    STRIPE_SECRET_KEY=Your stripe secret key for payments work 
     ```
 
 6. Add to config/database.php the code below:
@@ -100,6 +108,15 @@ Make sure that u created databases
             'username' => env('DB_USERNAME_TELECASTER', 'sa'),
             'password' => env('DB_PASSWORD_TELECASTER', 'Password_by_default'),
         ],
+   
+        'billing_db' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST_BILLING', '127.0.0.1'),
+            'port' => env('DB_PORT_BILLING', '1433'),
+            'database' => env('DB_DATABASE_BILLING', 'Billing'),
+            'username' => env('DB_USERNAME_BILLING', 'sa'),
+            'password' => env('DB_PASSWORD_BILLING', 'Password_by_default'),
+        ],
     ```
 
 7. Generate project key:
@@ -115,6 +132,13 @@ Make sure that u created databases
 9. Don't forget to make storage link or images will not display:
     ```bash
     php arisan storage:link
+    ```
+
+10. Now you need build project:
+    ```bash
+    vite build
+    (or if vite not work)
+    npm run build
     ```
 ## Использование
 

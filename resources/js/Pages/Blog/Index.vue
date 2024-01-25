@@ -8,12 +8,12 @@
                 <div v-if="posts.data.length > 0" class="post-list">
                     <div v-for="post in posts.data" :key="post.id" class="post-card">
                         <div class="post-image">
-                            <a href="#"><img :src="post.preview_image" :alt="post.title"></a>
+                            <Link :href="route('blog.show', post.id)"><img :src="post.preview_image" :alt="post.title"></Link>
                             <span>{{ post.date }}</span>
                         </div>
                         <div class="post-body">
                             <div class="post-title">
-                                <h2><a href="">[{{ post.category }}] {{ post.title }}</a></h2>
+                                <h2><Link :href="route('blog.show', post.id)">[{{ post.category }}] {{ post.title }}</Link></h2>
                             </div>
                             <div class="post-description" v-html="post.content"></div>
                         </div>
@@ -29,7 +29,7 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue';
 import Pagination from '@/Components/Pagination.vue';
-import {Head} from '@inertiajs/vue3'
+import {Head, Link} from '@inertiajs/vue3'
 import {onMounted} from "vue";
 
 const props = defineProps({

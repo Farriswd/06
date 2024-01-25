@@ -11,10 +11,13 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use mysql_xdevapi\Exception;
 
 class RegisteredUserController extends Controller
 {
@@ -34,50 +37,58 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:'.User::class,
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-//        $gameUserMaxId = GameAuthAccount::max('account_id'); //
+        try {
+            DB::beginTransaction();
+            //        $gameUserMaxId = GameAuthAccount::max('account_id'); //
 //        $accountId = $gameUserMaxId + 1;
-        $accountId = 0;
-        do {
-            $accountId = mt_rand(100000, 999999); // Или используйте другой диапазон
-        } while (!$this->isAccountIdUnique($accountId));
+            $accountId = 0;
+            do {
+                $accountId = mt_rand(100000, 999999); // Или используйте другой диапазон
+            } while (!$this->isAccountIdUnique($accountId));
 
-        $salt = env('DB_PASSWORD_SALT');
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'game_account_id' => $accountId,
+                'password' => Hash::make($request->password),
+            ]);
 
-        $newGameUser = GameAuthAccount::create([
-            'account_id' => $accountId,
-            'account' => $request->name,
-            'password' => md5($salt.$request->password),
-            'email' => $request->email,
-            'password2' => 'rappelztestpassword123',
-            'block' => 0,
-            'IP_user' => $request->ip(),
-            'last_login_server_idx' => 1,
-            'Admin' => 0,
-            'point' => 0,
-            'datePassword' => Carbon::now()->format('Y-m-d'),
-            'pk_' => 1,
-            'creationDate_' => Carbon::now(),
-            'updateDate_' => null,
-            'creatorId_' => null,
-            'updatorId_' => null,
-            'portId_' => 'rappelz',
-            'type_' => 'rappelz',
-            'accessDate_' => 0
-        ]);
+            $salt = env('DB_PASSWORD_SALT');
 
-        if (!$newGameUser) return redirect()->back()->with('error', 'Error Account Not Created. Try Again');
+            $newGameUser = GameAuthAccount::create([
+                'account_id' => $accountId,
+                'account' => $request->name,
+                'password' => md5($salt.$request->password),
+                'email' => $request->email,
+                'password2' => 'rappelztestpassword123',
+                'block' => 0,
+                'IP_user' => $request->ip(),
+                'last_login_server_idx' => 1,
+                'Admin' => 0,
+                'point' => 0,
+                'datePassword' => Carbon::now()->format('Y-m-d'),
+                'pk_' => 1,
+                'creationDate_' => Carbon::now(),
+                'updateDate_' => null,
+                'creatorId_' => null,
+                'updatorId_' => null,
+                'portId_' => 'rappelz',
+                'type_' => 'rappelz',
+                'accessDate_' => 0
+            ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'game_account_id' => $accountId,
-            'password' => Hash::make($request->password),
-        ]);
+            if (!$newGameUser) return redirect()->back()->with('error', 'Error Account Not Created. Try Again');
+            DB::commit();
+        } catch (\Exception $error) {
+            DB::rollBack();
+            Log::error('An error occurred during the register process: ' . $error->getMessage());
+            return redirect()->route('index')->with('error', 'An occurred during the register process.' . $error->getMessage());
+        }
 
         event(new Registered($user));
 

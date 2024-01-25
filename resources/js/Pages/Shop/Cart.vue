@@ -6,7 +6,7 @@
             <div class="main-content">
                 <div class="cart-items">
                     <div class="cart-list">
-                        <div v-for="product in products" :key="product.id" class="cart-card">
+                        <div v-for="(product, index) in products" :key="product.id" class="cart-card">
                             <div class="card-card__image">
                                 <img :src="product.image" :alt="product.title">
                             </div>
@@ -19,7 +19,7 @@
                                     <span class="btn plus" @click.prevent="update(product, carts[itemId(product.id)].quantity + 1)">+</span>
                                 </p>
                             </div>
-                            <div class="remove-product" @click.prevent="remove(product)"></div>
+                            <div class="remove-product" :class="{'processing': isProcessing}" @click.prevent="remove(product, index)"></div>
                         </div>
                     </div>
                 </div>
@@ -99,14 +99,17 @@ const update = async (product, quantity) => {
     //     }
     // );
 }
-const remove = (product) => {
-    isProcessing.value = true;
-    router.delete(route('shop.cart.delete', product), {
-        preserveScroll: true,
-        onFinish: () => {
-            isProcessing.value = false;
-        }
-    })
+const remove = async (product, index) => {
+    if (isProcessing.value) return console.log('wait')
+
+        isProcessing.value = true;
+        const response = await axios.delete(route('shop.cart.delete', product))
+            if (response.data.success) {
+                products.value.splice(index, 1);
+                router.reload({ only: ['cart'] })
+            }
+            if (products.value.length < 1) return router.visit(route('index'))
+        isProcessing.value = false;
 }
 
 /**
@@ -152,6 +155,10 @@ h3 {
     right: 0;
     background: #de0165;
     cursor: pointer;
+}
+
+.remove-product.processing {
+    opacity: .5;
 }
 
 .remove-product::before {
