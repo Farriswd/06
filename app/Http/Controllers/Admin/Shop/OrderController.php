@@ -20,4 +20,9 @@ class OrderController extends Controller
         return view('admin.shop.orders.index', compact('orders'));
     }
 
+    public function show(Order $order)
+    {
+        return view('admin.shop.orders.show', compact('order'));
+    }
+
 }

@@ -15,6 +15,8 @@ class OrderItem extends Model
         'unit_price',
     ];
 
+    protected $with = ['product'];
+
     public function product() {
         return $this->belongsTo(Product::class);
     }

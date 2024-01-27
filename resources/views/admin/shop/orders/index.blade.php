@@ -44,7 +44,7 @@
                                 {{ $order->total_price }} <span class="text-primary font-weight-bold">SA</span>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <a href="{{ route('admin.shop.orders.show', $order->id) }}" class="btn btn-primary">View</a>
                             </td>
                         </tr>
                             @endforeach

@@ -126,6 +126,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
             Route::get('/{order}', [\App\Http\Controllers\Admin\Shop\OrderController::class, 'show'])->name('admin.shop.orders.show');
         });
     });
+
+    Route::group(['prefix' => 'payments'], function (){
+        Route::get('/', [\App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('admin.payments.index');
+    });
+
     Route::get('test/console', [\App\Http\Controllers\GameServerController::class, 'console'])->name('console');
 });
 
