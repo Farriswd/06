@@ -65,7 +65,7 @@ Make sure that u created databases
     STRIPE_SECRET_KEY=Your stripe secret key for payments work 
     ```
 
-6. Add to config/database.php the code below:
+6. Check config/database.php and add the code below, if it isn't present:
     ```bash
     'sqlsrv' => [
             'driver' => 'sqlsrv',
@@ -126,12 +126,12 @@ Make sure that u created databases
 
 8. Now you can make migrations for website
     ```bash
-    php arisan migrate
+    php artisan migrate
     ```
 
 9. Don't forget to make storage link or images will not display:
     ```bash
-    php arisan storage:link
+    php artisan storage:link
     ```
 
 10. Now you need build project:
